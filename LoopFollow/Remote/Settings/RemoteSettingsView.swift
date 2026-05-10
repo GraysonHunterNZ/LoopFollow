@@ -71,13 +71,8 @@ struct RemoteSettingsView: View {
                         Image(systemName: "square.and.arrow.down")
                             .foregroundColor(.blue)
                         Text("Import/Export Settings")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.secondary)
-                            .font(.caption)
                     }
                 }
-                .buttonStyle(.plain)
             }
 
             // MARK: - Meal Section (for TRC only)
@@ -148,23 +143,25 @@ struct RemoteSettingsView: View {
                         )
                     }
 
-                    HStack {
-                        Text("APNS Key ID")
-                        TogglableSecureInput(
-                            placeholder: "Enter APNS Key ID",
-                            text: $viewModel.keyId,
-                            style: .singleLine
-                        )
-                    }
+                    if viewModel.areTeamIdsDifferent {
+                        HStack {
+                            Text("APNS Key ID")
+                            TogglableSecureInput(
+                                placeholder: "Enter APNS Key ID",
+                                text: $viewModel.remoteKeyId,
+                                style: .singleLine
+                            )
+                        }
 
-                    VStack(alignment: .leading) {
-                        Text("APNS Key")
-                        TogglableSecureInput(
-                            placeholder: "Paste APNS Key",
-                            text: $viewModel.apnsKey,
-                            style: .multiLine
-                        )
-                        .frame(minHeight: 110)
+                        VStack(alignment: .leading) {
+                            Text("APNS Key")
+                            TogglableSecureInput(
+                                placeholder: "Paste APNS Key",
+                                text: $viewModel.remoteApnsKey,
+                                style: .multiLine
+                            )
+                            .frame(minHeight: 110)
+                        }
                     }
                 }
 
@@ -194,23 +191,25 @@ struct RemoteSettingsView: View {
                         )
                     }
 
-                    HStack {
-                        Text("APNS Key ID")
-                        TogglableSecureInput(
-                            placeholder: "Enter APNS Key ID",
-                            text: $viewModel.keyId,
-                            style: .singleLine
-                        )
-                    }
+                    if viewModel.areTeamIdsDifferent {
+                        HStack {
+                            Text("APNS Key ID")
+                            TogglableSecureInput(
+                                placeholder: "Enter APNS Key ID",
+                                text: $viewModel.remoteKeyId,
+                                style: .singleLine
+                            )
+                        }
 
-                    VStack(alignment: .leading) {
-                        Text("APNS Key")
-                        TogglableSecureInput(
-                            placeholder: "Paste APNS Key",
-                            text: $viewModel.apnsKey,
-                            style: .multiLine
-                        )
-                        .frame(minHeight: 110)
+                        VStack(alignment: .leading) {
+                            Text("APNS Key")
+                            TogglableSecureInput(
+                                placeholder: "Paste APNS Key",
+                                text: $viewModel.remoteApnsKey,
+                                style: .multiLine
+                            )
+                            .frame(minHeight: 110)
+                        }
                     }
 
                     HStack {
@@ -277,29 +276,6 @@ struct RemoteSettingsView: View {
                     }
                     if Storage.shared.bolusIncrementDetected.value {
                         Text("Bolus Increment: \(Storage.shared.bolusIncrement.value.doubleValue(for: .internationalUnit()), specifier: "%.3f") U")
-                    }
-                }
-
-                if viewModel.areTeamIdsDifferent {
-                    Section(header: Text("Return Notification Settings"), footer: Text("Because LoopFollow and the target app were built with different Team IDs, you must provide the APNS credentials for LoopFollow below.").font(.caption)) {
-                        HStack {
-                            Text("Return APNS Key ID")
-                            TogglableSecureInput(
-                                placeholder: "Enter Key ID for LoopFollow",
-                                text: $viewModel.returnKeyId,
-                                style: .singleLine
-                            )
-                        }
-
-                        VStack(alignment: .leading) {
-                            Text("Return APNS Key")
-                            TogglableSecureInput(
-                                placeholder: "Paste APNS Key for LoopFollow",
-                                text: $viewModel.returnApnsKey,
-                                style: .multiLine
-                            )
-                            .frame(minHeight: 110)
-                        }
                     }
                 }
             }
